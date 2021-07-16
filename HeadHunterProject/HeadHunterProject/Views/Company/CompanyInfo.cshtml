@@ -1,0 +1,63 @@
+﻿<meta charset="utf-8" />
+<title>
+    Информация о компании
+</title>
+
+<html ng-app="mainApp">
+<head>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var mainApp = angular.module("mainApp", []);
+        mainApp.controller("mainController", function ($scope, $http) {
+            $scope.CompanyInfo;
+            $scope.NotFoundInfo;
+           
+                
+
+            $http({
+                method: 'POST',
+                url: '/Company/GetCompanyInfo',
+
+            })
+                .then(function succes(responce) {
+                    if (responce.data.length == 0) {
+                        $scope.NotFoundInfo = "Вы не добавили информацию о вашей компании.";
+                    }
+                    else {
+                        $scope.NotFoundInfo = "";
+                        $scope.CompanyInfo = responce.data;
+                        console.log($scope.CompanyInfo);
+                    }
+                   
+                   
+                });
+
+
+        });
+        
+    </script>
+    
+</head>
+<body ng-controller="mainController">
+    <h2> Информация о компании</h2>
+    <h3>{{NotFoundInfo}}</h3>
+    <img src="~/Images/CompanyInfo.png" class="MyImage" />
+    <div class="card-black " ng-repeat="c in CompanyInfo">
+        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header">Название : {{c.CompanyName}}</div>
+            <div class="card-body">
+                <h5 class="card-title">Город: {{c.City}} </h5>
+                <p class="card-text">Страна: {{c.Country}}</p>
+                <p class="card-text">Email: {{c.Email}}</p>
+                <p class="card-text">О компании: {{c.AboutCompany}}</p>
+                
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

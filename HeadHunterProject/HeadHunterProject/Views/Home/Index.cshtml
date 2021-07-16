@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>
+    Главная
+</title>
+<html ng-app="mainApp">
+<head>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var mainApp = angular.module("mainApp", []);
+        mainApp.controller("mainController", function ($scope, $http) {
+            $scope.Counters;
+            $http({
+                method: 'POST',
+                url: '/Home/GetCounters',
+
+            })
+                .then(function succes(responce) {
+                    $scope.Counters = responce.data;
+
+
+                });
+
+
+
+        });
+
+    </script>
+
+</head>
+
+<body ng-controller="mainController">
+
+    <div class="form-horizontal">
+        <h1 class="text-center" style="padding-top:20px;padding-bottom:20px;">Работа найдется для каждого!</h1>
+
+        
+        <div class="card-black grow">
+            <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                <div class="card-header">HH.ru</div>
+                <div class="card-body">
+                    <h5 class="card-title">Вакансий на сайте:</h5>
+                    <p class="card-text">{{Counters.CountVacancies}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-black grow">
+            <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                <div class="card-header">HH.ru</div>
+                <div class="card-body">
+                    <h5 class="card-title">Резюме на сайте:</h5>
+                    <p class="card-text">{{Counters.CountResumes}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-black grow">
+            <div class="card  text-white bg-dark mb-3 " style="max-width: 18rem;">
+                <div class="card-header">HH.ru</div>
+                <div class="card-body">
+                    <h5 class="card-title">Компаний на сайте:</h5>
+                    <p class="card-text">{{Counters.CountCompanies}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-black grow">
+            <div class="card  text-white bg-dark mb-3 " style="max-width: 18rem;">
+                <div class="card-header">HH.ru</div>
+                <div class="card-body">
+                    <h5 class="card-title">Соискателей на сайте:</h5>
+                    <p class="card-text">{{Counters.CountWorkers}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <img src="~/Images/main.png"  />
+        </div>
+       
+    </div>
+   
+</body>
+
+
+</html>
+
+
+
+
+<div class="form-horizontal">
+
+    
+
+
+</div>
+
+
+
+
+
+
+
+

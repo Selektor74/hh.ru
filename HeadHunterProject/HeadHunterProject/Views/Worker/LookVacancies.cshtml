@@ -1,0 +1,108 @@
+﻿<meta charset="utf-8" />
+
+<title>
+    angularjs
+</title>
+
+<html ng-app="mainApp">
+<head>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var mainApp = angular.module("mainApp", []);
+        mainApp.controller("mainController", function ($scope, $http) {
+            $scope.VacanciesList;
+            $scope.Company;
+            $http({
+                method: 'POST',
+                url: '/Worker/GetVacanciesList',
+
+            })
+                .then(function succes(responce) {
+                    $scope.VacanciesList = responce.data.vacancies;
+                    console.log($scope.VacanciesList);
+
+                });
+            $scope.GetMoreInfo = function (Id) {
+                $http({
+                    method: 'POST',
+                    url: '/Worker/GetCompanyInfo/' + Id
+                    
+
+                })
+                    .then(function succes(responce) {
+                        $scope.Company = responce.data;
+                        console.log($scope.Company);
+
+                    });
+            }
+            $scope.reaction = function (email) {
+                var aux = document.createElement("input");
+
+                // Assign it the value of the specified element
+                aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+
+                // Append it to the body
+                document.body.appendChild(aux);
+
+                // Highlight its content
+                aux.select();
+
+                // Copy the highlighted text
+                document.execCommand("copy");
+
+                // Remove it from the body
+                document.body.removeChild(aux);
+            }
+
+        });
+
+    </script>
+    @*СДЕЛАТЬ СПРАВА КАРТОЧКУ С ПОДРОБНОЙ ВАКАНСИЕЙ*@
+</head>
+<body ng-controller="mainController">
+    <h2 style="padding-bottom:20px;">Вакансии</h2>
+    <img src="~/Images/lookVacancies.png" class="MyImage" />
+    <div ng-repeat="v in VacanciesList" style="padding-bottom:30px;">
+        <div class="card  text-white bg-dark " style="max-width: 30rem;">
+            <div class="card-header">Должнность:<h5> {{v.NameOfPosition}}</h5></div>
+            <div class="card-body" >
+
+                <h5 class="card-title">Зарплата: {{v.Salary}} </h5>
+
+                <p class="card-text">Требования: {{v.Requirements}}</p>
+
+                <div class="col-md-offset-2 col-md-10 anim " style="padding-bottom:10px;"
+                     ng-mouseenter="GetMoreInfo(v.CompanyId)">
+                    ↓ Подробнее ↓
+                  
+                    <div class="subcard " style="max-width: 30rem;" ng-repeat="c in Company">
+
+                        <div class="card-body ">
+                            <h5 class="card-title">Название : {{c.CompanyName}}</h5>
+                            <div class="card-subtitle">Город: {{c.City}} </div>
+                            <p class="card-text">Страна: {{c.Country}}</p>
+                            <p class="card-text">Email: {{c.Email}}</p>
+                            <p class="card-text">О компании: {{c.AboutCompany}}</p>
+                            <a href="mailto:{{c.Email}}"  class="btn btn-info"> Откликнуться</a>
+                            
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div>
+           
+        </div>
+        
+    </div>
+
+
+
+</body>
+</html>
+
+
+
+

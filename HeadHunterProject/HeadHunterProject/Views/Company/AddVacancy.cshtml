@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>
+    angularjs
+</title>
+<html ng-app="mainApp">
+<head>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var mainApp = angular.module("mainApp", []);
+        mainApp.controller("mainController", function ($scope, $http, $window) {
+            $scope.myVacancy;
+            $scope.Company;
+            $scope.CompanyError;
+          
+            $scope.postVacancy = function (vacancy, form) {
+                if (form.$valid) {
+                   
+                    $http({
+                        method: 'POST',
+                        url: '/Company/AddVacancy',
+                        data: vacancy
+                    })
+                        .then(function succes(responce) {
+                            
+                            if (responce.data.success == true) {
+                                $window.location.href = '/Home/Index';
+                            }
+                            else {
+                                $scope.CompanyError = "Сначала добавьте компанию в систему";
+                            }
+
+
+                        });
+                }
+            }
+           
+        });
+
+    </script>
+
+</head>
+
+<body ng-controller="mainController">
+    <form name="VacancyForm">
+        <div class="">
+            <h2>Добавить вакансию</h2>
+            <hr />
+            <h1>{{CompanyError}}</h1>
+            <img src="~/Images/Vacancy.png" class="MyImage" />
+            <div class="form-horizontal card text-white  bg-dark " style="max-width: 30rem;">
+                <div class="form-group" style="padding-top:10px;">
+
+                    <label class="control-label col-md-6">Должность</label>
+                    <div class="col-md-10">
+                        <input class="form-control text-box single-line" type="text" ng-model="myVacancy.NameOfPosition" />
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <label class="control-label col-md-6">Зарплата</label>
+                    <div class="col-md-10">
+                        <input class="form-control text-box single-line" type="number" ng-model="myVacancy.Salary" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <label class="control-label col-md-6">Требования</label>
+                    <div class="col-md-10">
+                        <input class="form-control text-box single-line" type="text" ng-model="myVacancy.Requirements" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <label class="control-label col-md-6">О нас</label>
+                    <div class="col-md-10">
+                        <textarea class="form-control" ng-model="myVacancy.AboutUs"></textarea>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Принять" class="btn btn-default text-white border-white" ng-click="postVacancy(myVacancy,VacancyForm)" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+
+</body>
+</html>

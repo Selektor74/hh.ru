@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNet.Identity
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+        <ul class="nav justify-content-center text-white  bg-dark " style="padding-bottom:20px;">
+
+            @if (User.IsInRole("Company"))
+            {
+
+                <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+                    <a class="nav-link"> @Html.ActionLink("Добавить компанию", "AddCompany", "Company", routeValues: null, htmlAttributes: new { @class = "text-white btn btn-default border-white" })</a>
+                </li>
+                <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+                    <a class="nav-link"> @Html.ActionLink("О компании", "CompanyInfo", "Company", routeValues: null, htmlAttributes: new { @class = "text-white btn btn-default border-white" })</a>
+                </li>
+                <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+                    <a class="nav-link">  @Html.ActionLink("Добавить вакансию", "AddVacancy", "Company", routeValues: null, htmlAttributes: new { @class = "text-white btn btn-default border-white" })</a>
+                </li>
+                <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+                    <a class="nav-link"> @Html.ActionLink("Мои вакансии", "VacancyInfo", "Company", routeValues: null, htmlAttributes: new { @class = "text-white btn btn-default border-white" })</a>
+                </li>
+                <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+                    <a class="nav-link"> @Html.ActionLink("Смотреть резюме", "LookResumes", "Company", routeValues: null, htmlAttributes: new { @class = "text-white btn btn-default border-white" })</a>
+                </li>
+
+            }
+            @if (User.IsInRole("Worker"))
+            {
+                <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+                    <a class="nav-link"> @Html.ActionLink("Добавить соискателя", "AddWorker", "Worker", routeValues: null, htmlAttributes: new { @class = "text-white btn btn-default border-white" })</a>
+
+                </li>
+                <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+                    <a class="nav-link">   @Html.ActionLink("О соискателе", "WorkerInfo", "Worker", routeValues: null, htmlAttributes: new { @class = "text-white btn btn-default border-white" })</a>
+                </li>
+                <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+                    <a class="nav-link">  @Html.ActionLink("Мои резюме", "ResumeInfo", "Worker", routeValues: null, htmlAttributes: new { @class = "text-white btn btn-default border-white" })</a>
+                </li>
+                <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+                    <a class="nav-link">  @Html.ActionLink("Добавить Резюме", "AddResume", "Worker", routeValues: null, htmlAttributes: new { @class = "text-white btn btn-default border-white" })</a>
+                </li>
+                <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+                    <a class="nav-link">  @Html.ActionLink("Смотреть вакансии", "LookVacancies", "Worker", routeValues: null, htmlAttributes: new { @class = "text-white btn btn-default border-white" })</a>
+                </li>
+            }
+            <li class="nav-item">
+                <a class="nav-link text-warning" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
+            </li>
+        </ul>
+
+    }
+}
+else
+{
+    <ul class="nav justify-content-center text-white  bg-dark " style="padding-bottom:20px;">
+        <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+            <a class="nav-link">
+                @Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "text-white btn btn-default border-white" })
+            </a>
+        </li>
+        <li class="nav-item" style="padding-left:10px;padding-right:10px;">
+            <a class="nav-link">
+                @Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "text-white btn btn-default border-white" })
+            </a>
+        </li>
+    </ul>
+
+}

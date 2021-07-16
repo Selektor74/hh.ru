@@ -1,0 +1,89 @@
+﻿
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>
+    Добавление Компании
+</title>
+<html ng-app="mainApp">
+<head>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var mainApp = angular.module("mainApp", []);
+        mainApp.controller("mainController", function ($scope, $http, $window) {
+            $scope.myCompany;
+            $scope.postCompany = function (company, form) {
+                if (form.$valid) {
+                    $http({
+                        method: 'POST',
+                        url: '/Company/AddCompany',
+                        data: company
+                    })
+                        .then(function succes(responce) {
+                            if (responce.data.success == true) {
+                                console.log("eeeeeeee");
+                                $window.location.href = '/Home/Index';
+                            }
+                       
+
+                        });
+                }
+            }
+        });
+
+    </script>
+
+</head>
+
+
+<body ng-controller="mainController">
+
+    <form name="CompanyForm">
+        <h2>Добавление Компании</h2>
+        <hr />
+        <h4 class="text-info">При повторном добавлении информации о компании - старая удаляется </h4>
+        <img src="~/Images/Company.png" class="MyImage" />
+
+        <div class="form-horizontal card text-white  bg-dark " style="max-width: 30rem;">
+
+
+            <div class="form-group">
+
+                <label class="control-label col-md-6">Название компании</label>
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" type="text" ng-model="myCompany.CompanyName" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-6">Город</label>
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" type="text" ng-model="myCompany.City" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-6">Страна</label>
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" type="text" ng-model="myCompany.Country" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-6">О компании</label>
+                <div class="col-md-10">
+                    <textarea class="form-control"  type="text" ng-model="myCompany.AboutCompany"></textarea>
+                    
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Принять" class="btn btn-default text-white border-white" ng-click="postCompany(myCompany,CompanyForm)" />
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>

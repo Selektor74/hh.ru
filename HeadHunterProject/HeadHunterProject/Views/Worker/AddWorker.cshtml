@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>
+    angularjs
+</title>
+<html ng-app="mainApp">
+<head>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var mainApp = angular.module("mainApp", []);
+        mainApp.controller("mainController", function ($scope, $http, $window) {
+            $scope.worker;
+            $scope.postWorker = function (worker, form) {
+                if (form.$valid) {
+                    $http({
+                        method: 'POST',
+                        url: '/Worker/AddWorker',
+                        data: worker
+                    })
+                        .then(function succes(responce) {
+                            
+                            if (responce.data.success == true) {
+                                $window.location.href = '/Home/Index';
+                            }
+                            console.log("eeeeeeee");
+
+                        });
+                }
+            }
+        });
+
+    </script>
+
+</head>
+
+
+<body ng-controller="mainController">
+
+    <form name="WorkerForm">
+        <h2>О себе</h2>
+        <hr />
+        <h5 class="text-info">При повторном добавлении информации о себе - старая удаляется.</h5>
+
+        <img src="~/Images/Resume.png" class="MyImage" />
+
+        <div class="form-horizontal card text-white  bg-dark " style="max-width: 30rem;">
+
+
+            <div class="form-group" style="padding-top:10px;">
+
+                <label class="control-label col-md-6">Имя</label>
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" type="text" ng-model="worker.FirstName" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-6">Фамилия</label>
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" type="text" ng-model="worker.LastName" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-6">Город</label>
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" type="text" ng-model="worker.City" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-6">Страна</label>
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" type="text" ng-model="worker.Country" />
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Готово!" class="btn btn-default text-white border-white" ng-click="postWorker(worker,WorkerForm)" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+</body>
+
+</html>
+
+

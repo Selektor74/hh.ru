@@ -1,0 +1,82 @@
+﻿
+<meta charset="utf-8" />
+
+<title>
+    angularjs
+</title>
+
+<html ng-app="mainApp">
+<head>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var mainApp = angular.module("mainApp", []);
+        mainApp.controller("mainController", function ($scope, $http,$window) {
+            $scope.VacancyInfo;
+            $scope.NotFoundInfo;
+
+
+
+            $http({
+                method: 'POST',
+                url: '/Company/GetVacancyInfo',
+
+            })
+                .then(function succes(responce) {
+                    if (responce.data.success == false) {
+                        $scope.NotFoundInfo = "Вы еще не добавили вакансии.";
+                    }
+                    else {
+                        $scope.NotFoundInfo = "";
+                        $scope.VacancyInfo = responce.data;
+                        console.log($scope.VacancyInfo);
+                    }
+                    
+
+                });
+            $scope.DeleteVacancy = function (id) {
+                $http({
+                    method: 'POST',
+                    url: '/Company/DeleteVacancy/' + id,
+                    
+
+                })
+                    .then(function succes(responce) {
+                        if (responce.data.success == true) {
+                            $window.location.reload();
+                        }
+                       
+
+
+                    });
+            }
+
+
+        });
+
+    </script>
+
+</head>
+<body ng-controller="mainController">
+    <h2>Мои вакансии</h2>
+    <h3>{{NotFoundInfo}}</h3>
+    <img src="~/Images/myVacancy-myResume.png" class="MyImage" />
+    <div ng-repeat="v in VacancyInfo">
+        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header">Должность: {{v.NameOfPosition}}</div>
+            <div class="card-body">
+                <h5 class="card-title">Зарплата: {{v.Salary}} </h5>
+                <p class="card-text">Требования: {{v.Requirements}}</p>
+                <p class="card-text">О нас: {{v.AboutUs}}</p>
+                <input type="button" class="btn btn-danger" value="Удалить" ng-click="DeleteVacancy(v.VacancyId)"/> 
+
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
+

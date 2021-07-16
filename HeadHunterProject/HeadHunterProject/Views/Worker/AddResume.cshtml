@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>
+    angularjs
+</title>
+<html ng-app="mainApp">
+<head>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var mainApp = angular.module("mainApp", []);
+        mainApp.controller("mainController", function ($scope, $http, $window) {
+            $scope.myResume;
+            $scope.workerError;
+            $scope.postResume = function (resume, form) {
+                if (form.$valid) {
+                    $http({
+                        method: 'POST',
+                        url: '/Worker/AddResume',
+                        data: resume
+                    })
+                        .then(function succes(responce) {
+                            if (responce.data.success == true) {
+                                $window.location.href = '/Home/Index';
+                            }
+                            else if (responce.data.success == false) {
+                                $scope.workerError = "Сначала добавьте соискателя в систему";
+                            }
+                            console.log("eeeeeeee");
+
+                        });
+                }
+            }
+        });
+
+    </script>
+
+</head>
+
+
+<body ng-controller="mainController">
+
+    <form name="ResumeForm">
+        <h2>Добавление Резюме</h2>
+        <hr />
+        <h1 class="text-warning">{{workerError}}</h1>
+       
+        <img src="~/Images/AddResume.png" class="MyImage" />
+
+        <div class="form-horizontal card text-white  bg-dark " style="max-width: 30rem;">
+
+
+            <div class="form-group">
+
+                <label class="control-label col-md-6">Должность</label>
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" type="text" ng-model="myResume.NameOfPosition" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-6">Опыт работы</label>
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" type="text" ng-model="myResume.Experience" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-6">Личные качества</label>
+                <div class="col-md-10">
+                    <input class="form-control text-box single-line" type="text" ng-model="myResume.PersonalQuality" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-6">Обо мне</label>
+                <div class="col-md-10">
+                    <textarea class="form-control" type="text" ng-model="myResume.AboutMe"></textarea>
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group ">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Готово!" class="btn btn-default text-white border-white" ng-click="postResume(myResume,ResumeForm)" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+</body>
+
+</html>
+
+

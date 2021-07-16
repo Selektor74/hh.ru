@@ -1,0 +1,125 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+.card-black {
+    display: inline-block;
+    padding-right: 20px;
+    padding-left: 20px;
+    
+   
+}
+.headWord
+{
+    padding-bottom:30px;
+}
+.border-MyGreen {
+    border-color: #7bc191 !important;
+}
+headerCustom {
+    width: 100%;
+    height: 300px;
+    background-repeat: repeat, no-repeat;
+    background-image: url('../Images/Header.jpg');
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.MyImage {
+    max-height: 400px;
+    max-width: 400px;
+    float: right;
+}
+.grow {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.grow:hover {
+    -webkit-transform: scale(1.3);
+    -ms-transform: scale(1.3);
+    transform: scale(1.3);
+    -webkit-transition: all 0.3s ease;
+    
+    -moz-transition: all 0.3s ease;
+    
+    -o-transition: all 0.3s ease;
+    
+    transition: all 0.3s ease;
+}
+.onButton {
+    border-color: #fff !important;
+}
+.onButton:hover{
+    border-color:green;
+}
+.card{
+    
+}
+.poster {
+    position: relative;
+    margin: 100px auto;
+    background: #ff6600;
+    height: 200px;
+    width: 150px;
+}
+
+
+
+.subcard {
+    display: none;
+    background-color: #818587;
+   
+    
+}
+.anim {
+    
+    -moz-transition: all 0.1s ease;
+    -o-transition: all 0.1s ease;
+    transition: all 0.1s ease;
+    border: none;
+}
+    .anim:hover {
+        border:groove;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+
+    }
+
+    .anim:hover .subcard {
+        display: block;
+        
+        padding-top: 10px;
+        border-color:orange;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }

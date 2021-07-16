@@ -1,0 +1,78 @@
+﻿<meta charset="utf-8" />
+
+<title>
+    angularjs
+</title>
+
+<html ng-app="mainApp">
+<head>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var mainApp = angular.module("mainApp", []);
+        mainApp.controller("mainController", function ($scope, $http,$window) {
+            $scope.ResumeInfo;
+            $scope.NotFoundInfo;
+
+
+
+            $http({
+                method: 'POST',
+                url: '/Worker/GetResumeInfo',
+
+            })
+                .then(function succes(responce) {
+                    if (responce.data.success == false) {
+                        $scope.NotFoundInfo = "Вы еще не добавляли резюме.";
+                    }
+                    else {
+                        $scope.NotFoundInfo = "";
+                        $scope.ResumeInfo = responce.data;
+                        console.log($scope.ResumeInfo);
+                    }
+                   
+
+                });
+            $scope.DeleteResume = function (id) {
+                $http({
+                    method: 'POST',
+                    url: '/Worker/DeleteResume/' + id,
+
+
+                })
+                    .then(function succes(responce) {
+                        if (responce.data.success == true) {
+                            $window.location.reload();
+                        }
+
+
+
+                    });
+            }
+
+        });
+
+    </script>
+
+</head>
+<body ng-controller="mainController">
+    <h2>Мои резюме</h2>
+    <h3>{{NotFoundInfo}}</h3>
+    <img src="~/Images/myVacancy-myResume.png" class="MyImage" />
+    <div ng-repeat="r in ResumeInfo">
+        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header">Должность: {{r.NameOfPosition}}</div>
+            <div class="card-body">
+                <h5 class="card-title">Опыт: {{r.Experience}} </h5>
+                <p class="card-text">Личные качества: {{r.PersonalQuality}}</p>
+                <p class="card-text">О мне: {{r.AboutMe}}</p>
+                <input type="button" class="btn btn-danger" value="Удалить" ng-click="DeleteResume(r.ResumeId)" />
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

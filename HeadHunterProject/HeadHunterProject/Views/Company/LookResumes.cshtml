@@ -1,0 +1,83 @@
+﻿
+<meta charset="utf-8" />
+
+<title>
+    angularjs
+</title>
+
+<html ng-app="mainApp">
+<head>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var mainApp = angular.module("mainApp", []);
+        mainApp.controller("mainController", function ($scope, $http) {
+            $scope.ResumesList;
+            $scope.Worker;
+            $http({
+                method: 'POST',
+                url: '/Company/GetResumesList',
+
+            })
+                .then(function succes(responce) {
+                    $scope.ResumesList = responce.data;
+                    console.log($scope.CompanyInfo);
+                   
+                });
+            $scope.GetMoreInfo = function (Id) {
+                $http({
+                    method: 'POST',
+                    url: '/Company/GetWorkerInfo/' + Id
+
+
+                })
+                    .then(function succes(responce) {
+                        $scope.Worker = responce.data;
+                        console.log($scope.Worker);
+
+                    });
+            }
+
+        });
+
+    </script>
+    @*СДЕЛАТЬ СПРАВА КАРТОЧКУ С ПОДРОБНЫМ РЕЗЮМЕ*@
+</head>
+<body ng-controller="mainController">
+    <h2 style="padding-bottom:20px;padding-top:20px;">Список резюме</h2>
+    <img src="~/Images/LookResumes.png" class="MyImage" />
+    <div ng-repeat="r in ResumesList">
+        <div class="card text-white bg-dark mb-3" style="max-width: 30rem;">
+            <div class="card-header">Должнность: {{r.NameOfPosition}}</div>
+            <div class="card-body">
+                <h5 class="card-title">Качества: {{r.PersonalQuality}} </h5>
+                <div class="card-text">Обо мне:{{r.AboutMe}}</div>
+                <div class="form-group ">
+                    <div class="col-md-offset-2 col-md-10 anim " style="padding-bottom:10px;"
+                         ng-mouseenter="GetMoreInfo(r.WorkerId)">
+                        ↓ Подробнее ↓
+
+                        <div class="subcard " style="max-width: 30rem;" ng-repeat="w in Worker">
+
+                            <div class="card-body ">
+                                <h5 class="card-title">Имя : {{w.FirstName}}</h5>
+                                <div class="card-subtitle">Фамилия: {{w.LastName}} </div>
+                                <p class="card-text">Город: {{w.City}}</p>
+                                <p class="card-text">Страна: {{w.Country}}</p>
+                                <p class="card-text">Email: {{w.Email}}</p>
+                                <a href="mailto:{{w.Email}}" class="btn btn-info"> Откликнуться</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
+

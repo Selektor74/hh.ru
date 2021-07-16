@@ -1,0 +1,72 @@
+﻿
+<meta charset="utf-8" />
+
+<title>
+    Обо мне 
+</title>
+
+<html ng-app="mainApp">
+<head>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <script>
+
+        var mainApp = angular.module("mainApp", []);
+        mainApp.controller("mainController", function ($scope, $http) {
+            $scope.WorkerInfo;
+            $scope.NotFoundInfo;
+
+
+
+            $http({
+                method: 'POST',
+                url: '/Worker/GetWorkerInfo',
+
+            })
+                .then(function succes(responce) {
+                    if (responce.data.length == 0) {
+                        $scope.NotFoundInfo="Вы не заполнили данные о себе."
+                    }
+                    else {
+                        $scope.WorkerInfo = responce.data;
+                        $scope.NotFoundInfo = "";
+                        console.log($scope.WorkerInfo);
+                    }
+                   
+                    
+
+                });
+
+
+        });
+
+    </script>
+
+</head>
+<body ng-controller="mainController">
+    <h2 style="padding-bottom:20px;">Обо мне</h2>
+
+    <h3>{{NotFoundInfo}}</h3>
+    
+        <img src="~/Images/workerInfo.png" class="MyImage" />
+
+        <div class="card-black " ng-repeat="w in WorkerInfo">
+            <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                <div class="card-header">Имя: <h5>{{w.FirstName}} {{w.LastName}}</h5></div>
+                <div class="card-body">
+                    <h5 class="card-title">Город: {{w.City}} </h5>
+                    <p class="card-text">Страна: {{w.Country}}</p>
+                    <p class="card-text">Электронная почта: {{w.Email}}</p>
+
+                </div>
+            </div>
+        </div>
+  
+  
+
+
+
+</body>
+</html>
+
+
